@@ -1,0 +1,342 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+	<title>Users - MyAnimeList.net</title>
+    <meta name="Description" content="Start cataloging anime you've watched or manga you've read. Browse through our extensive anime and manga database. Get anime or manga suggestions, recommendations and reviews. View top rated anime and manga. Create anime and manga favorites. Tons more too!" />
+    <meta name="Keywords" content="anime, animelist, myanimelist, anime list, log anime seen, catalog anime watched, anime reviews, top anime, anime characters, favorite anime, anime discussion, anime information, manga series, manga information, top manga, mangalist, manga list, manga, manga reviews, voice actors, seiyuu" />
+    <meta name="Author" content="Garrett Gyssler">
+	
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://cdn.myanimelist.net/js/hover.v5.js"></script>
+		<script type="text/javascript" src="http://cdn.myanimelist.net/js/jquery.fancybox.pack.v1.js"></script>
+	
+				<link rel="stylesheet" href="http://cdn.myanimelist.net/css/myanimelist.v44.css" type="text/css" />
+			<link rel="stylesheet" type="text/css" href="http://cdn.myanimelist.net/css/mal.ridlayout.css" />
+	<script type="text/javascript" src="http://cdn.myanimelist.net/js/myanimelist.v18.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://cdn.myanimelist.net/css/jquery.fancybox.v3.css" />
+	<link rel="stylesheet" type="text/css" href="http://cdn.myanimelist.net/css/dialog.v1.css" />
+	<link rel="search" type="application/opensearchdescription+xml" href="http://cdn.myanimelist.net/plugins/myanimelist.xml" title="MyAnimeList" />
+	
+	<link rel="shortcut icon" href="http://cdn.myanimelist.net/images/faviconv5.ico" />
+	
+	<!-- BEGIN TRIGGER TAG INITIALIZATION -->
+	<script type="text/javascript" src="http://cdn.triggertag.gorillanation.com/js/triggertag.js"></script>
+	<script type="text/javascript">getTrigger('4834');</script>
+	<!-- END TRIGGER TAG INITIALIZATION -->
+	<!-- GAM HEADER SCRIPT -->
+		<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+		</script>
+		<script type="text/javascript">
+		GS_googleAddAdSenseService("ca-pub-1304704158939332");
+		GS_googleEnableAllServices();
+		</script>
+		<script type="text/javascript">
+		GA_googleUseIframeRendering();
+		</script>
+	<!-- END OF GAM HEADER SCRIPT -->
+	
+	<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-369102-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body onload="">
+<div id="myanimelist">
+
+
+	<div id="headerSmall">
+		<a href="/">MyAnimeList.net</a>
+	</div>
+	
+<div id="menu">
+    
+    <div id="menu_right">
+    	
+        <div id="searchBar">
+
+        <input type="text" class="inputtext" id="topSearchText" value="Search" onkeydown="return ts_checkEnter(event);" size="30" /> 
+        <select id="topSearchValue" class="inputtext" onchange="ts_selection();">
+        <option value="0">Anime</option>
+        <option value="1">Manga</option>
+        <option value="2">Characters</option>
+        <option value="6">People</option>
+        <option value="3">Fansub Groups</option>
+        <option value="4">Clubs</option>
+        <option value="5">Users</option>
+        </select>
+        
+        <input type="image" src="http://cdn.myanimelist.net/images/magnify.gif" value="Search" onclick="ts_subSearch(5);" />
+        
+        </div>
+        
+	</div>
+	
+	<div id="menu_left">
+		<ul id="nav">
+						<li class="small"><a href="/anime.php">Anime</a>
+				<ul class="wider">
+										<li><a href="/reviews.php?t=anime">Reviews</a></li>
+					<li><a href="/recommendations.php?s=recentrecs&t=anime">Recommendations</a></li>
+					<li><a href="/topanime.php">Top Anime</a></li>
+					<li><a href="/fansub-groups.php">Fansub Groups</a></li>
+				</ul>
+			</li>
+			<li class="small"><a href="/manga.php">Manga</a>
+				<ul class="wider">
+										<li><a href="/reviews.php?t=manga">Reviews</a></li>
+					<li><a href="/recommendations.php?s=recentrecs&t=manga">Recommendations</a></li>
+					<li><a href="/topmanga.php">Top Manga</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Community</a>
+				<ul>
+					<li><a href="/forum/">Forums</a></li>
+					<li><a href="/clubs.php">Clubs</a></li>
+					<li><a href="/blog.php">Blogs</a></li>
+					<li><a href="/users.php">Users</a></li>
+				</ul>
+			</li>
+			<li class="medium"><a href="#">Industry</a>
+				<ul class="wide">
+					<li><a href="/people.php">People</a></li>
+					<li><a href="/character.php">Characters</a></li>
+					<li><a href="/news.php">News</a></li>
+					<li><a href="/favorites.php">Top Favorites</a></li>
+				</ul>
+			</li>
+			
+			<li class="tiny"><a href="/register.php">Join</a></li>
+			<li class="smaller"><a href="/ajaxtb.php?login" id="malLogin">Login</a></li>
+						</ul>
+	</div>
+</div>
+
+<div id="contentWrapper">
+
+	<div id="roadblock">
+				<div class="ad230">
+						<script type="text/javascript">
+						if ((typeof(f325922)=='undefined' || f325922 > 0) ) {
+						if(typeof(gnm_ord)=='undefined') gnm_ord=Math.random()*10000000000000000; if(typeof(gnm_tile) == 'undefined') gnm_tile=1;
+						document.write('<scr'+'ipt src="http://n4403ad.doubleclick.net/adj/gn.cr.myanimelist.net/ros;sect=ros;sz=230x90,963x90;tile='+(gnm_tile++)+';ord='+gnm_ord+'?" type="text/javascript"></scr'+'ipt>');
+						} else {
+							GA_googleFillSlotWithSize("ca-pub-1304704158939332", "myanimelist_ros_230x90", 230, 90);
+						}
+						</script>
+						</div>
+				<div class="ad728">
+						<!-- 728x90 -->
+						<script type="text/javascript">
+						  if (typeof(gnm_ord)=='undefined' || (typeof(ad963_enabled)!= 'undefined' && ad963_enabled == false)) gnm_ord=Math.random()*10000000000000000;
+						  if (typeof(gnm_tile) == 'undefined') gnm_tile=1;
+						  document.write('<scr'+'ipt src="http://n4403ad.doubleclick.net/adj/gn.cr.myanimelist.net/ros;sect=ros;sz=728x90,970x90;dga=;dgg=;tile='+(gnm_tile++)+';ord=' + gnm_ord + ';?" type="text/javascript"></scr' + 'ipt>');
+						</script>
+						</div>
+				</div>
+	<h1>Users</h1>
+	<div id="content">
+	
+	<form method="get" style="display: inline;">
+	<div style="text-align: left;">
+	<input type="text" name="q" value="" class="inputtext" size="30"> <a href="javascript:void(0);" onclick="$('#advsearch').toggle();return false;">Advanced</a>
+	
+	<div class="spaceit_pad" style="text-align: left;">
+	<input type="submit" value="Find User" class="inputButton"> <input type="button" onclick="window.location='users.php?lucky=1'" value="Random List" class="inputButton">
+	
+	<div style="display: none;" id="advsearch" class="spaceit">
+	<div class="normal_header">Advanced Search</div>
+	<table border="0" cellpadding="2" cellspacing="0" width="100%">
+	<tr>
+		<td width="80" valign="top">Location</td>
+		<td><input type="text" name="loc" value="" size="20" class="inputtext">
+		<div class="spaceit_pad"><small>Ex: California</small></div>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">Age</td>
+		<td>&gt; <input type="text" name="agelow" value="" class="inputtext" size="2"> and &lt; <input type="text" name="agehigh" value="" class="inputtext" size="2">
+		<div class="spaceit_pad"><small>Ex: &gt; 18 and &lt; 24</small></div></td>
+	</tr>
+	<tr>
+		<td valign="top">Gender</td>
+		<td><select name="g" class="inputtext">
+		<option value="">Don't care
+		<option value="1" >Male
+		<option value="2" >Female
+		</select></td>
+	</tr>
+	</table>
+	</div>
+	
+	</div>
+	
+	</div>
+	</form>
+	
+		<div class="normal_header" style="font-size: 14px;"><div style="float: right; font-size: 11px; font-weight: normal;"><a href="users.php">Back to Users</a></div>User Search Results</div>
+		<div class="borderClass" style="margin-bottom: 5px;">Pages (38837) <a href="?q=&show=0">&laquo; First</a> ...  <a href="?q=&show=38700">&laquo;</a> <a href="?q=&show=38675">1548</a> <a href="?q=&show=38700">1549</a> [1550] <a href="?q=&show=38750">1551</a> <a href="?q=&show=38775">1552</a> <a href="?q=&show=38750">&raquo;</a> ... <a href="?q=&show=970900">Last &raquo;</a></div><table border="0" cellpadding="10" cellspacing="0" width="100%"><tr><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/UrzaP">UrzaP</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/UrzaP"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-27-08, 9:40 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/ninjaniime88">ninjaniime88</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/ninjaniime88"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-27-08, 9:53 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/danhhhhh">danhhhhh</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/danhhhhh"><img src="http://myanimelist.net/images/userimages/thumbs/39878_thumb.jpg" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>03-03-08, 2:45 PM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/Nel">Nel</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/Nel"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>03-05-08, 3:44 PM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/DesiredLoginName">DesiredLoginName</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/DesiredLoginName"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-28-08, 9:17 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/Katzuja">Katzuja</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/Katzuja"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-27-08, 10:24 AM</small></div>
+			</td></tr><tr><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/fenali">fenali</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/fenali"><img src="http://myanimelist.net/images/userimages/thumbs/39882_thumb.jpg" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>2 hours ago</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/LCFaraven666">LCFaraven666</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/LCFaraven666"><img src="http://myanimelist.net/images/userimages/thumbs/39883_thumb.jpg" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>08-13-12, 1:20 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/Cowgrl88">Cowgrl88</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/Cowgrl88"><img src="http://myanimelist.net/images/userimages/thumbs/39884_thumb.jpg" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>05-20-12, 8:36 PM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/ashley_d">ashley_d</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/ashley_d"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-27-08, 10:46 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/edwardnearor">edwardnearor</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/edwardnearor"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-27-08, 10:38 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/Heretic">Heretic</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/Heretic"><img src="http://myanimelist.net/images/userimages/thumbs/39887_thumb.jpg" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-27-08, 10:51 AM</small></div>
+			</td></tr><tr><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/NuinCloud">NuinCloud</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/NuinCloud"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-27-08, 10:44 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/scooby1525">scooby1525</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/scooby1525"><img src="http://myanimelist.net/images/userimages/thumbs/39889_thumb.jpg" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>05-05-10, 3:15 PM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/alexandre">alexandre</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/alexandre"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-27-08, 12:13 PM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/naralys">naralys</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/naralys"><img src="http://myanimelist.net/images/userimages/thumbs/39891_thumb.jpg" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>05-06-12, 1:19 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/atthee">atthee</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/atthee"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-27-08, 6:50 PM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/Nosferatu">Nosferatu</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/Nosferatu"><img src="http://myanimelist.net/images/userimages/thumbs/39893_thumb.jpg" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>06-04-11, 11:53 PM</small></div>
+			</td></tr><tr><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/Autre">Autre</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/Autre"><img src="http://myanimelist.net/images/userimages/thumbs/39894_thumb.jpg" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>08-07-12, 3:43 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/Liquidcell">Liquidcell</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/Liquidcell"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>04-01-08, 11:16 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/klimojakwino">klimojakwino</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/klimojakwino"><img src="http://myanimelist.net/images/userimages/thumbs/39896_thumb.jpg" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>09-06-09, 11:26 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/Anayu">Anayu</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/Anayu"><img src="http://myanimelist.net/images/userimages/thumbs/39897_thumb.jpg" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>15 minutes ago</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/MDavydovas">MDavydovas</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/MDavydovas"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>09-13-09, 10:16 AM</small></div>
+			</td><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/jackel">jackel</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/jackel"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-27-08, 1:32 PM</small></div>
+			</td></tr><tr><td align="center"  class="borderClass">
+			<div style="margin-bottom: 7px;"><a href="http://myanimelist.net/profile/tsumiwulf-chan">tsumiwulf-chan</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/tsumiwulf-chan"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" vspace="4" border="0"></a></div>
+			<div class="spaceit_pad lightLink"><small>02-27-08, 1:26 PM</small></div>
+			</td></table><div class="borderClass" style="margin-top: 5px;">Pages (38837) <a href="?q=&show=0">&laquo; First</a> ...  <a href="?q=&show=38700">&laquo;</a> <a href="?q=&show=38675">1548</a> <a href="?q=&show=38700">1549</a> [1550] <a href="?q=&show=38750">1551</a> <a href="?q=&show=38775">1552</a> <a href="?q=&show=38750">&raquo;</a> ... <a href="?q=&show=970900">Last &raquo;</a></div>
+</div>
+
+<div id="rightcontentunder">
+
+<a href="http://myanimelist.net/modules.php?go=faq">FAQ</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://myanimelist.net/about.php">About</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://myanimelist.net/about.php?go=contact">Contact</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://www.craveonline.com/termsofuse.php?site=www.MyAnimeList.net" target="_blank">Terms</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://www.craveonline.com/privacy.php?site=www.MyAnimeList.net" target="_blank">Privacy</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://myanimelist.net/modules.php?go=affiliates">Affiliates</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a id="_bapw-link" href="#" target="_blank" style=""><img id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important"/> <span style="vertical-align:middle !important">AdChoices</span></a><script>/*<![CDATA[*/(function(){var c=247,g=595,b=false,i=document,f=i.getElementById("_bapw-link"),a=(i.location.protocol=="https:"?"https":"http"),h=(a=="https"?"https://info.evidon.com/c/betrad/pub/":"http://cdn.betrad.com/pub/");function e(j){var d=new Image();d.src=a+"://l.betrad.com/pub/p.gif?pid="+c+"&ocid="+g+"&i"+j+"=1&r="+Math.random()}i.getElementById("_bapw-icon").src=h+"icon1.png";f.onmouseover=function(){if(/#$/.test(f.href)){f.href="http://info.evidon.com/pub_info/"+c+"?v=1"}};f.onclick=function(){var j=window._bap_p_overrides;function d(m,p){var n=i.getElementsByTagName("head")[0]||i.documentElement,l=b,k=i.createElement("script");function o(){k.onload=k.onreadystatechange=null;n.removeChild(k);p()}k.src=m;k.onreadystatechange=function(){if(!l&&(this.readyState=="loaded"||this.readyState=="complete")){l=true;o()}};k.onload=o;n.insertBefore(k,n.firstChild)}if(j&&j.hasOwnProperty(c)){if(j[c].new_window){e("c");return true}}this.onclick="return "+b;d(a+"://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js",function(){d(h+"pub2.js",function(){BAPW.i(f,{pid:c,ocid:g})})});return b};e("i")}());/*]]>*/</script>
+	
+<div id="copyright">
+&copy; 2011 All Rights Reserved. MyAnimeList.net is a property of <a href="http://www.craveonline.com">CraveOnline Media</a>, LLC.<br /> <a href="http://www.craveonline.com">CraveOnline Media</a>, LLC is a division of <a href="http://www.atomiconline.com">AtomicOnline</a>, LLC, an <a href="http://www.evolvemediacorp.com">Evolve Media</a> Corp. company.</div>
+
+</div>
+
+</div>
+
+<!--  control container height -->
+<div style="clear:both;"></div>
+
+<!-- end rightbody -->
+</div>
+
+
+</div>
+<!-- Begin comScore Tag -->
+<script>
+    document.write(unescape("%3Cscript src='" + (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js' %3E%3C/script%3E"));
+</script>
+
+<script>
+  COMSCORE.beacon({
+    c1:2,
+    c2:6036161,
+    c3:"",
+    c4:"",
+    c5:"",
+    c6:"",
+    c15:""
+  });
+</script>
+<noscript>
+  <img src="http://b.scorecardresearch.com/p?c1=2&c2=6036161&c3=&c4=&c5=&c6=&c15=&cj=1" />
+</noscript>
+<!-- End comScore Tag -->
+
+<!-- start Vibrant Media IntelliTXT script section -->
+<script type="text/javascript" src="http://myanimelist.us.intellitxt.com/intellitxt/front.asp?ipid=30532"></script>
+<!-- end Vibrant Media IntelliTXT script section -->
+	<script type="text/javascript" src="http://s.skimresources.com/js/7138X661721.skimlinks.js"></script>
+</body>
+</html>
