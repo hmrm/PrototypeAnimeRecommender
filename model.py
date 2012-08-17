@@ -1,24 +1,13 @@
 import numpy as np
 import sys
-import pca
-A = np.matrix(map(lambda x: map(lambda y: float(y), x.split()), sys.stdin.readlines()))
-print "Original matrix:"
-print A
-
-pca.Center(A)
-
-print "Centered and Scaled matrix:"
-print A
-p = pca.PCA(A, fraction=0.80)
-print "U:"
-print p.U
-print "d:"
-print p.d
-print "Vt:"
-print p.Vt
-print "eigenvalues:"
-print p.eigen
-print "number of pcs:"
-print p.npc
-print "udvt:"
-print 
+from matplotlib.mlab import PCA
+A = np.array(map(lambda x: map(lambda y: float(y), x.split()), sys.stdin.readlines())).T
+myPCA = PCA(A)
+print 'Principle components'
+print myPCA.Wt*myPCA.sigma + myPCA.mu
+print 'fracs'
+print myPCA.fracs
+print 'How To get out of PCA space'
+point = myPCA.project([1,2,3,4,5,6,7,8], minfrac=.05)
+print point.size
+print np.matrix(point - myPCA.mu[:point.size]) * (myPCA.Wt * myPCA.sigma)[:point.size]

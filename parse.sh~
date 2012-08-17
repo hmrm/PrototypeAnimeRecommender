@@ -1,8 +1,0 @@
-#!/bin/bash
-
-while read -r line
-do
-    echo "http://mal-api/animelist/"$line
-    echo $line >&2
-    curl "http://mal-api/animelist/"$line | ruby parse_json.rb
-done
