@@ -1,16 +1,43 @@
 import numpy as np
+import scipy.sparse
 import sys
-from matplotlib.mlab import PCA
+from sparsesvd import sparsesvd
+np.set_printoptions(threshold=np.nan)
 
-print 'Beginning Analysis'
-A = np.array(map(lambda x: map(lambda y: float(y), x.split()[:8]), sys.stdin.readlines()))
-print 'Array Loaded'
-myPCA = PCA(A)
-print 'Principle components'
-print myPCA.Wt*myPCA.sigma + myPCA.mu
-print 'fracs'
-print myPCA.fracs
-print 'How To get out of PCA space'
-point = myPCA.project([1,2,3,4,5,6,7,8], minfrac=.05)
-print point.size
-print np.matrix(point - myPCA.mu[:point.size]) * (myPCA.Wt * myPCA.sigma)[:point.size]
+sys.stderr.write("Running Sparse SVD on Data from stdin, Requesting " + sys.argv[1] + " Factors\n")
+
+sys.stderr.write("Reading Data\n")
+data = sys.stdin.readlines()
+sys.stderr.write("Reformatting Data\n")
+data = map((lambda x: x.split()), data)
+ilist = []
+jlist = []
+vlist = []
+sys.stderr.write("Populating ijv Lists\n")
+for i in xrange(len(data)):
+    if not data[i][2] == '0':
+        ilist.append(data[i][0])
+        jlist.append(data[i][1])
+        vlist.append(data[i][2])
+sys.stderr.write("Recasting ijv Lists\n")
+ilist = map((lambda x: int(x)), ilist)
+jlist = map((lambda x: int(x)), jlist)
+vlist = map((lambda x: int(x)), vlist)
+sys.stderr.write("Recentering ijv Lists\n")
+aset = set(jlist)
+for a in aset:
+    indicies = filter((lambda x: jlist[x] == a), range(len(jlist)))
+    values = map((lambda x: vlist[x]), indicies)
+    avg = sum(values)/len(values)
+    for i in indicies:
+        vlist[i] -= avg
+sys.stderr.write("Creating Sparse Matrix\n")
+smat = scipy.sparse.coo_matrix((vlist, (ilist, jlist)))
+sys.stderr.write("Transforming Sparse Matrix to csc Format\n")
+smat = smat.tocsc()
+sys.stderr.write("Running Sparsesvd\n")
+ut, s, vt = sparsesvd(smat, int(sys.argv[1]))
+sys.stderr.write("Analysis Completed, Printing Data\n")
+print ut
+print s
+print vt
