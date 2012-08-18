@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
+import sys
 
-html_doc = open("html_doc", "r").read()
+html_doc = sys.stdin.read()
 
 soup = BeautifulSoup(html_doc)
 

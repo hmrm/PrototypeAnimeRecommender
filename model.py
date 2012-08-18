@@ -1,7 +1,10 @@
 import numpy as np
 import sys
 from matplotlib.mlab import PCA
-A = np.array(map(lambda x: map(lambda y: float(y), x.split()), sys.stdin.readlines())).T
+
+print 'Beginning Analysis'
+A = np.array(map(lambda x: map(lambda y: float(y), x.split()[:8]), sys.stdin.readlines()))
+print 'Array Loaded'
 myPCA = PCA(A)
 print 'Principle components'
 print myPCA.Wt*myPCA.sigma + myPCA.mu
