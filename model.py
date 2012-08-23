@@ -66,6 +66,10 @@ while not line == "":
         jlist.append(line[1])
         vlist.append(line[2])
     line = vtfile.readline()
+sys.stderr.write("Recasting VT ijv Lists\n")
+ilist = map((lambda x: int(x)), ilist)
+jlist = map((lambda x: int(x)), jlist)
+vlist = map((lambda x: int(x)), vlist)
 vilist = []
 vjlist = []
 vvlist = []
@@ -74,10 +78,49 @@ line = vvfile.readline()
 while not line == "":
     line = line.strip().split()
     if not line[2] == '0':
-        ilist.append(line[0])
-        jlist.append(line[1])
-        vlist.append(line[2])
+        vilist.append(line[0])
+        vjlist.append(line[1])
+        vvlist.append(line[2])
     line = vvfile.readline()
+sys.stderr.write("Recasting VV ijv Lists\n")
+vilist = map((lambda x: int(x)), vilist)
+vjlist = map((lambda x: int(x)), vjlist)
+vvlist = map((lambda x: int(x)), vvlist)
+sys.stderr.write(str(len(vvlist)) + "\n")
+sys.stderr.write("Making " + str(len(vvlist)) + " Predictions, Analyzing Performance, and Outputting Errors\n")
+indexdict = {}
+for i in xrange(len(jlist)):
+    if ilist[i] in indexdict:
+        indexdict[ilist[i]].append(i)
+    else:
+        indexdict[ilist[i]] = [i]
+for test_no in xrange(len(vvlist)):
+    #default prediction
+    prediction = 5
+    if vjlist[test_no] in aset:
+        if test_no in indexdict:
+            indicies = indexdict[test_no]
+            #normalization and centering
+            for index in indicies:
+                if jlist[index] in aset:
+                    vlist[index] -= mudict[jlist[index]]
+                    if not sigmadict[jlist[index]] == 0:
+                        vlist[index] /= sigmadict[jlist[index]]
+                else:
+                    indicies.remove(index)
+            prediction_direction = vt[0] - vt[0]
+            for cur_eig in vt:
+                coefficient = 0
+                for index in indicies:
+                    coefficient += vlist[index]*cur_eig[jlist[index]]
+                prediction_direction += coefficient*cur_eig
+            prediction = prediction_direction[vjlist[test_no]] * sigmadict[vjlist[test_no]] + mudict[vjlist[test_no]]
+        else:
+            prediction = mudict[vjlist[test_no]]
+    print prediction - vvlist[test_no]
+    sys.stderr.write("Test Number " + str(test_no) + " Predicted " + str(prediction) + " Actual " + str(vvlist[test_no]) + "\n")
+        
+
 #sys.stderr.write("Analysis Completed, Printing Data\n")
 #print ut.shape
 #print s
