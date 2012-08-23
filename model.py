@@ -15,14 +15,10 @@ line = sys.stdin.readline()
 while not line == "":
     line = line.strip().split()
     if not line[2] == '0':
-        ilist.append(line[0])
-        jlist.append(line[1])
-        vlist.append(line[2])
+        ilist.append(int(line[0]))
+        jlist.append(int(line[1]))
+        vlist.append(int(line[2]))
     line = sys.stdin.readline()
-sys.stderr.write("Recasting ijv Lists\n")
-ilist = map((lambda x: int(x)), ilist)
-jlist = map((lambda x: int(x)), jlist)
-vlist = map((lambda x: int(x)), vlist)
 sys.stderr.write("Recentering and Normalizing ijv Lists\n")
 aset = set(jlist)
 indexdict = {}
@@ -118,7 +114,6 @@ for test_no in xrange(len(vvlist)):
         else:
             prediction = mudict[vjlist[test_no]]
     print prediction - vvlist[test_no]
-    sys.stderr.write("Test Number " + str(test_no) + " Predicted " + str(prediction) + " Actual " + str(vvlist[test_no]) + "\n")
         
 
 #sys.stderr.write("Analysis Completed, Printing Data\n")
