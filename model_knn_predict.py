@@ -90,6 +90,7 @@ def program():
     #default prediction
                 prediction = 5
                 writeflag = True
+                nusers = 0
                 try: #if validation[test_no][1] in data:
                     try: #if test_no in u_to_index:
             #normalization and centering
@@ -106,7 +107,8 @@ def program():
                         coordinates = np.array(coordinates)
                         k = int(sys.argv[4])
                         rel_users = a_to_u[v_j[test_no]]
-                        sys.stderr.write("Found " + str(len(rel_users)) + " Relevant Users\n")
+                        nusers = len(rel_users)
+                        sys.stderr.write("Found " + str(nusers) + " Relevant Users\n")
                         k = max(1, min(k, len(rel_users) / 2))
                         knn = []
                         mindist = [k*100] * k #fragile
@@ -134,9 +136,11 @@ def program():
                         prediction = mudict[v_j[test_no]]
                 except KeyError:
                     writeflag = False
-                if writeflag:
-                    print prediction - v_v[test_no]
 
+                print str(prediction - v_v[test_no]),
+                print " ",
+                print str(nusers)
+                    
         actuallyMakePredictions(getvData() + (vt, mu, sigma, smat, unsmat))
 
     makePredictions(prestuff())
