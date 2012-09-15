@@ -5,6 +5,7 @@ import scipy.sparse
 from scipy.stats import mode
 import sys
 from sparsesvd import sparsesvd
+import scikits.ann as ann
 def program():
     np.set_printoptions(threshold=np.nan)
     def getData(infile):
