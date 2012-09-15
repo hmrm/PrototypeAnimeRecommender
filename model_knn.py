@@ -5,6 +5,7 @@ import scipy.sparse
 from scipy.stats import mode
 import sys
 from sparsesvd import sparsesvd
+import scikits.ann as ann
 def program():
     np.set_printoptions(threshold=np.nan)
     def getData(infile):
@@ -84,7 +85,11 @@ def program():
             u_to_index = {key : [] for key in set(d_i)}
             for i in xrange(len(d_i)):
                 u_to_index[d_i[i]].append(i)
-            plocs = getProjectedLocs(smat, vt)
+            plocs = getProjectedLocs(smat, vt) # plocs is a map from users to projected coordinates
+
+            sys.stderr.write("Creating KDTrees\n")
+            a_to_kdtree = {}
+
             for test_no in xrange(len(v_v)):
                 sys.stderr.write("Executing Test Number " + str(test_no) + " out of " + str(len(v_v)) + "\n")
     #default prediction
@@ -104,22 +109,29 @@ def program():
                         for cur_eig in vt:
                             coordinates.append(sum(d_v[x]*cur_eig[d_j[x]] for x in u_to_index[test_no]))
                         coordinates = np.array(coordinates)
+
                         k = int(sys.argv[4])
                         rel_users = a_to_u[v_j[test_no]]
                         sys.stderr.write("Found " + str(len(rel_users)) + " Relevant Users\n")
                         k = max(1, min(k, len(rel_users) / 2))
-                        knn = []
-                        mindist = [k*100] * k #fragile
-                        knn = [-1] * k
-                        for user in rel_users:
-                            d = np.linalg.norm(coordinates - plocs[user])
-                            for i in xrange(k):
-                                if d < mindist[i]:
-                                    mindist.insert(i, d)
-                                    mindist.pop()
-                                    knn.insert(i, user)
-                                    knn.pop()
-                                    break
+                        #manual method
+#                        knn = []
+#                        mindist = [k*100] * k #fragile
+#                        knn = [-1] * k
+#                        for user in rel_users:
+#                            d = np.linalg.norm(coordinates - plocs[user])
+#                            for i in xrange(k):
+#                                if d < mindist[i]:
+#                                    mindist.insert(i, d)
+#                                    mindist.pop()
+#                                    knn.insert(i, user)
+#                                    knn.pop()
+#                                    break
+                        
+                        if not v_j[test_no] in a_to_kdtree:
+                            sys.stderr.write("Building KDTree\n")
+                            a_to_kdtree[v_j[test_no]] = ann.kdtree(np.array([plocs[u].tolist() for u in rel_users]))
+                        knn = a_to_kdtree[v_j[test_no]].knn(coordinates, k)[0][0]
                         knn_ratings = [unsmat[x][v_j[test_no]] for x in knn]
                         mmm = sys.argv[5]
                         if mmm == "mean":
@@ -134,8 +146,9 @@ def program():
                         prediction = mudict[v_j[test_no]]
                 except KeyError:
                     writeflag = False
-                if writeflag:
-                    print prediction - v_v[test_no]
+                sys.stderr.write("Printing Prediction\n")
+                sys.stderr.write("Predicted: " + str(prediction) + " Actual: " + str(v_v[test_no]) +"\n")
+                print prediction - v_v[test_no]
 
         actuallyMakePredictions(getvData() + (vt, mu, sigma, smat, unsmat))
 
