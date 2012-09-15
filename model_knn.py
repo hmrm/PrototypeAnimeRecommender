@@ -87,7 +87,6 @@ def program():
                 u_to_index[d_i[i]].append(i)
             plocs = getProjectedLocs(smat, vt) # plocs is a map from users to projected coordinates
 
-            sys.stderr.write("Creating KDTrees\n")
             a_to_kdtree = {}
 
             for test_no in xrange(len(v_v)):
