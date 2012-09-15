@@ -87,15 +87,17 @@ def program():
                 u_to_index[d_i[i]].append(i)
             plocs = getProjectedLocs(smat, vt) # plocs is a map from users to projected coordinates
 
+            sys.stderr.write("Creating KDTrees\n")
             a_to_kdtree = {}
+            a_to_kdtreemap = {}
 
             for test_no in xrange(len(v_v)):
                 sys.stderr.write("Executing Test Number " + str(test_no) + " out of " + str(len(v_v)) + "\n")
     #default prediction
                 prediction = 5
                 writeflag = True
-                try: #if validation[test_no][1] in data:
-                    try: #if test_no in u_to_index:
+                if v_j[test_no] in u_to_index:
+                    if test_no in u_to_index:
             #normalization and centering
                         for index in u_to_index[test_no]:
                             try: #if data[index][1] in aset:
@@ -110,7 +112,7 @@ def program():
                         coordinates = np.array(coordinates)
 
                         k = int(sys.argv[4])
-                        rel_users = a_to_u[v_j[test_no]]
+                        rel_users = list(a_to_u[v_j[test_no]])
                         sys.stderr.write("Found " + str(len(rel_users)) + " Relevant Users\n")
                         k = max(1, min(k, len(rel_users) / 2))
                         #manual method
@@ -129,9 +131,10 @@ def program():
                         
                         if not v_j[test_no] in a_to_kdtree:
                             sys.stderr.write("Building KDTree\n")
+                            a_to_kdtreemap[v_j[test_no]] = rel_users
                             a_to_kdtree[v_j[test_no]] = ann.kdtree(np.array([plocs[u].tolist() for u in rel_users]))
                         knn = a_to_kdtree[v_j[test_no]].knn(coordinates, k)[0][0]
-                        knn_ratings = [unsmat[x][v_j[test_no]] for x in knn]
+                        knn_ratings = [unsmat[a_to_kdtreemap[v_j[test_no]][x]][v_j[test_no]] for x in knn]
                         mmm = sys.argv[5]
                         if mmm == "mean":
                             prediction = np.mean(knn_ratings)
@@ -140,11 +143,9 @@ def program():
                         else:
                             prediction = np.argmax(np.bincount(knn_ratings))
 
-                    except KeyError:
+                    else:
                         writeflag = False
                         prediction = mudict[v_j[test_no]]
-                except KeyError:
-                    writeflag = False
                 sys.stderr.write("Printing Prediction\n")
                 sys.stderr.write("Predicted: " + str(prediction) + " Actual: " + str(v_v[test_no]) +"\n")
                 print prediction - v_v[test_no]
