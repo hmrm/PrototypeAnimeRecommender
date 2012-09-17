@@ -1,5 +1,5 @@
 # remember data -> ijv
-import math
+import operator
 import numpy as np
 import scipy.sparse
 from scipy.stats import mode
@@ -71,85 +71,97 @@ def program():
         sys.stderr.write("Analysis Completed, Beginning Making Predictions\n")
         def getvData():
             vtfile = open(sys.argv[2], 'r')
-            vvfile = open(sys.argv[3], 'r')
             d_i, d_j, d_v = getData(vtfile)
-            sys.stderr.write("Reading Validation Validation Data\n")
-            v_i, v_j, v_v = getData(vvfile)
-            return (d_i, d_j, d_v), (v_i, v_j, v_v)
+            return (d_i, d_j, d_v),
 
         def getProjectedLocs(smat, vt):
             return smat * vt.T
 
-        def actuallyMakePredictions(((d_i, d_j, d_v), (v_i, v_j, v_v), vt, mudict, sigmadict, smat, unsmat)):
-            sys.stderr.write("Making " + str(len(v_i)) + " Predictions, Analyzing Performance, and Outputting Errors\n")
+        def actuallyMakePredictions(((d_i, d_j, d_v), vt, mudict, sigmadict, smat, unsmat)):
+            sys.stderr.write("Making Predictions")
+
+            min_users = int(sys.argv[3])
+            n_recommendations = int(sys.argv[6])
+
             u_to_index = {key : [] for key in set(d_i)}
             for i in xrange(len(d_i)):
                 u_to_index[d_i[i]].append(i)
-            plocs = getProjectedLocs(smat, vt)
 
+            for index in u_to_index[0]:
+                try: #if data[index][1] in aset:
+                    d_v[index] -= mudict[d_j[index]]
+                    if not sigmadict[d_j[index]] == 0:
+                        d_v[index] /= sigmadict[d_j[index]]
+                except KeyError:
+                    u_to_index[test_no].remove(index)
+            coordinates = []
+            for cur_eig in vt:
+                coordinates.append(sum(d_v[x]*cur_eig[d_j[x]] for x in u_to_index[0]))
+            coordinates = np.array(coordinates)
+
+            plocs = getProjectedLocs(smat, vt) # plocs is a map from users to projected coordinates
+
+            sys.stderr.write("Creating KDTrees\n")
             a_to_kdtree = {}
+            a_to_kdtreemap = {}
 
-            for test_no in xrange(len(v_v)):
-                sys.stderr.write("Executing Test Number " + str(test_no) + " out of " + str(len(v_v)) + "\n")
+            a_to_predicted_rating = {}
+
+            for a in a_to_u:
+                sys.stderr.write("Estimating Rating for " + str(a) + "\n")
     #default prediction
                 prediction = 5
                 writeflag = True
-                nusers = 0
-                try: #if validation[test_no][1] in data:
-                    try: #if test_no in u_to_index:
-            #normalization and centering
-                        for index in u_to_index[test_no]:
-                            try: #if data[index][1] in aset:
-                                d_v[index] -= mudict[d_j[index]]
-                                if not sigmadict[d_j[index]] == 0:
-                                    d_v[index] /= sigmadict[d_j[index]]
-                            except KeyError:
-                                u_to_index[test_no].remove(index)
-                        coordinates = []
-                        for cur_eig in vt:
-                            coordinates.append(sum(d_v[x]*cur_eig[d_j[x]] for x in u_to_index[test_no]))
-                        coordinates = np.array(coordinates)
-                        k = int(sys.argv[4])
-                        rel_users = a_to_u[v_j[test_no]]
-                        nusers = len(rel_users)
-                        sys.stderr.write("Found " + str(nusers) + " Relevant Users\n")
-                        k = max(1, min(k, len(rel_users) / 2))
-#                        knn = []
-#                        mindist = [k*100] * k #fragile
-#                        knn = [-1] * k
-#                        for user in rel_users:
-#                            d = np.linalg.norm(coordinates - plocs[user])
-#                            for i in xrange(k):
-#                                if d < mindist[i]:
-#                                    mindist.insert(i, d)
-#                                    mindist.pop()
-#                                    knn.insert(i, user)
-#                                    knn.pop()
-#                                    break
-                        if not v_j[test_no] in a_to_kdtree:
-                            sys.stderr.write("Building KDTree\n")
-                            a_to_kdtree[v_j[test_no]] = ann.kdtree(np.array([plocs[u].tolist() for u in rel_users]))
-                        knn = a_to_kdtree[v_j[test_no]].knn(coordinates, k)[0][0]
 
-                        knn_ratings = [unsmat[x][v_j[test_no]] for x in knn]
-                        mmm = sys.argv[5]
-                        if mmm == "mean":
-                            prediction = np.mean(knn_ratings)
-                        elif mmm == "median":
-                            prediction = np.median(knn_ratings)
-                        else:
-                            prediction = np.argmax(np.bincount(knn_ratings))
 
-                    except KeyError:
-                        writeflag = False
-                        prediction = mudict[v_j[test_no]]
-                except KeyError:
-                    writeflag = False
 
-                print str(prediction - v_v[test_no]),
-                print " ",
-                print str(nusers)
-                    
+                k = int(sys.argv[4])
+                rel_users = list(a_to_u[a])
+                if len(rel_users) < min_users:
+                    sys.stderr.write("Inadequate Data\n")
+                    continue
+                sys.stderr.write("Found " + str(len(rel_users)) + " Relevant Users\n")
+                k = max(1, min(k, len(rel_users) / 2))
+                        
+                sys.stderr.write("Building KDTree\n")
+                a_to_kdtreemap[a] = rel_users
+                ploclist = []
+                for i in xrange(len(rel_users)):
+                    ploclist.append(plocs[rel_users[i]].tolist())
+                a_to_kdtree[a] = ann.kdtree(np.array(ploclist))
+
+                knn = a_to_kdtree[a].knn(coordinates, k)[0][0]
+                sys.stderr.write("Using K = " + str(k) + "\n")
+                knn_ratings = [unsmat[a_to_kdtreemap[a][x]][a] for x in knn]
+                mmm = sys.argv[5]
+                if mmm == "mean":
+                    prediction = np.mean(knn_ratings)
+                elif mmm == "median":
+                    prediction = np.median(knn_ratings)
+                else:
+                    prediction = np.argmax(np.bincount(knn_ratings))
+
+                sys.stderr.write("Predicted: " + str(prediction) + "\n")
+                a_to_predicted_rating[a] = prediction
+            sys.stderr.write("Predictions Complete!\n")
+            
+            cannot_rec = set([ d_j[index] for index in u_to_index[0] ])
+
+            i = 0
+            while i < n_recommendations:
+                maxvalue = 0
+                maxindex = 0
+                for key, value in a_to_predicted_rating.iteritems():
+                    if value > maxvalue:
+                        maxindex = key
+                        maxvalue = value
+                top = maxindex
+                if not top in cannot_rec:
+                    cannot_rec.add(top)
+                    print top
+                    i += 1
+                del a_to_predicted_rating[top]
+
         actuallyMakePredictions(getvData() + (vt, mu, sigma, smat, unsmat))
 
     makePredictions(prestuff())
